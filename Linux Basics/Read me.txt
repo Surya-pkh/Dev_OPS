@@ -1,0 +1,11 @@
+SSH
+
+VM BOX - application ( Hypervisor OS/application)
+
+Hosted and Nested type.
+
+Nested type - kernel/OS/Hypervisor Application/Os
+
+Baremetal OS - Hyper visor OS
+
+upgradable is happening in 
