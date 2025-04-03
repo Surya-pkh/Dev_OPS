@@ -13,6 +13,7 @@ def recognize_speech():
     if listening:
         return
     
+    listening = True
     stop_listening = False
     status_label.config(text="Listening...")
     root.update()
