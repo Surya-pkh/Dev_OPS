@@ -8,4 +8,3 @@ hooks:
     - location: scripts/restart_server.sh
       timeout: 300
       runas: root
-      onFailure: CONTINUE
