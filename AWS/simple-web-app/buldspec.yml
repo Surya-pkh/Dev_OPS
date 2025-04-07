@@ -1,17 +1,8 @@
 version: 0.2
-
 phases:
-  install:
-    runtime-versions:
-      nodejs: 14
-    commands:
-      - echo Installing dependencies...
-      - npm install
   build:
     commands:
-      - echo Build started...
-      - npm run build || echo No build step needed
+      - echo Build started on `date`
 artifacts:
   files:
     - '**/*'
-  base-directory: build
