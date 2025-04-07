@@ -2,8 +2,10 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /var/www/html/
+    destination: /var/www/html
 hooks:
   AfterInstall:
-    - location: scripts/install_dependencies.sh
+    - location: scripts/restart_server.sh
       timeout: 300
+      runas: root
+      onFailure: CONTINUE
