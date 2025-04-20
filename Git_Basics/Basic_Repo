@@ -1,0 +1,41 @@
+# For initialize git on Local 
+sudo git init
+
+# For checking the Logs in the L=Local Git repo
+git Log
+
+# for showing all the files in the repository
+ls -lart
+
+# for adding the file in the Git Repo
+git add.
+
+# for commiting it to the git officially ( First Time required "User name and Password")
+git commit 
+
+# for shorter log file view
+git log --oneline
+
+# For showing the status of the Git
+git status
+
+git ls-files
+
+# LOW LEVEL COMMANDS
+
+git hash-Object-value
+
+git cat-file -p < Hash Value > 
+
+-p = Content of the Object
+-s = Size of the content
+-t = Type of the object
+
+git mktree
+
+# to change the older git commit comment
+
+got commit --amend
+
+# For getting the Has value of the BLOB
+git ls-files -s
