@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Conky Monitor
+Comment=Start Conky system monitor with monitoring
+Exec=/home/surya/start_conky.sh
+Terminal=false
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
