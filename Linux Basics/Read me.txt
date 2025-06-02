@@ -9,3 +9,5 @@ Nested type - kernel/OS/Hypervisor Application/Os
 Baremetal OS - Hyper visor OS
 
 upgradable is happening in 
+
+whenever virwing any website from ews cross verify whether its running on http only.
