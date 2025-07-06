@@ -1,29 +1,30 @@
 pipeline {
     agent any
-
+    environment {
+        RECIPIENT = 'gcpsurya27@gmail.com'
+    }
     stages {
-        stage('Clone') {
+        stage('Checkout') {
             steps {
-                git url: 'https://github.com/Surya-pkh/Dev_OPS/tree/main/Jenkins/'
+                checkout scm
             }
         }
         stage('Run Script') {
             steps {
-                sh 'chmod +x Sample.sh'
-                sh './Sample.sh'
-                sh 'cat output.txt'
+                sh 'bash Jenkins/Sample.sh'
             }
         }
     }
-
     post {
-        always {
-            emailext(
-                subject: "Jenkins Job: ${env.JOB_NAME} #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
-                body: """<p>Build Output:</p>
-<pre>${env.BUILD_URL}console</pre>""",
-                to: 'gcpsurya27@gmail.com'
-            )
+        success {
+            emailext subject: "✅ Build Successful: ${env.JOB_NAME}",
+                     body: "The build ${env.BUILD_NUMBER} completed successfully.",
+                     to: "${env.RECIPIENT}"
+        }
+        failure {
+            emailext subject: "❌ Build Failed: ${env.JOB_NAME}",
+                     body: "The build ${env.BUILD_NUMBER} failed. Check Jenkins for logs.",
+                     to: "${env.RECIPIENT}"
         }
     }
 }
