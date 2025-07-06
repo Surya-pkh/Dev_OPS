@@ -16,24 +16,12 @@ pipeline {
         }
     }
     post {
-    success {
-        emailext(
-            subject: "✅ Build Success - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-            body: "Build ${env.BUILD_NUMBER} succeeded.\n\nJob: ${env.JOB_NAME}\nURL: ${env.BUILD_URL}",
-            to: "gcpsurya27@gmail.com",
-            replyTo: "gcpsurya27@gmail.com",
-            from: "gcpsurya27@gmail.com"
+    always {
+        mail(
+            to: 'gcpsurya27@gmail.com',
+            subject: "Pipeline Notification",
+            body: "Pipeline completed with status: ${currentBuild.currentResult}"
         )
-    }
-    failure {
-        emailext(
-            subject: "❌ Build Failed - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-            body: "Build ${env.BUILD_NUMBER} failed.\n\nJob: ${env.JOB_NAME}\nURL: ${env.BUILD_URL}",
-            to: "gcpsurya27@gmail.com",
-            replyTo: "gcpsurya27@gmail.com",
-            from: "gcpsurya27@gmail.com"
-        )
-    }
-}
-
+           }
+        }
 }
