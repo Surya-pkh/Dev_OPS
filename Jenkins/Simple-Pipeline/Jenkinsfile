@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Run Script') {
             steps {
-                sh 'bash Jenkins/Sample.sh'
+                sh 'bash Jenkins/Simple-Pipeline/Sample.sh'
             }
         }
     }
