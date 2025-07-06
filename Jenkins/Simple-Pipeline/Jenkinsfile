@@ -16,15 +16,24 @@ pipeline {
         }
     }
     post {
-        success {
-            emailext subject: "✅ Build Successful: ${env.JOB_NAME}",
-                     body: "The build ${env.BUILD_NUMBER} completed successfully.",
-                     to: "${env.RECIPIENT}"
-        }
-        failure {
-            emailext subject: "❌ Build Failed: ${env.JOB_NAME}",
-                     body: "The build ${env.BUILD_NUMBER} failed. Check Jenkins for logs.",
-                     to: "${env.RECIPIENT}"
-        }
+    success {
+        emailext(
+            subject: "✅ Build Success - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: "Build ${env.BUILD_NUMBER} succeeded.\n\nJob: ${env.JOB_NAME}\nURL: ${env.BUILD_URL}",
+            to: "gcpsurya27@gmail.com",
+            replyTo: "gcpsurya27@gmail.com",
+            from: "gcpsurya27@gmail.com"
+        )
     }
+    failure {
+        emailext(
+            subject: "❌ Build Failed - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: "Build ${env.BUILD_NUMBER} failed.\n\nJob: ${env.JOB_NAME}\nURL: ${env.BUILD_URL}",
+            to: "gcpsurya27@gmail.com",
+            replyTo: "gcpsurya27@gmail.com",
+            from: "gcpsurya27@gmail.com"
+        )
+    }
+}
+
 }
