@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skills & Projects</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <script defer src="github.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">Surya.dev</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="skills.html" class="nav-link active">Skills & Projects</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <div class="container animate-in">
+      <h1>🛠️ Skills & Experience</h1>
+      <ul class="skills">
+        <li>
+          <i class="fa-brands fa-docker"></i>
+          <span>Docker, Kubernetes, Helm</span>
+        </li>
+        <li>
+          <i class="fa-brands fa-aws"></i>
+          <span>AWS EC2, S3, RDS, Lambda</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-code-branch"></i>
+          <span>GitHub Actions, CI/CD, Jenkins</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-terminal"></i>
+          <span>Linux, Bash, Python, Terraform</span>
+        </li>
+      </ul>
+
+      <h2>📁 My GitHub Projects</h2>
+      <ul id="repo-list" class="projects">
+        <li><div class="loading"></div> Loading projects...</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
