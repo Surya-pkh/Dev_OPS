@@ -1,6 +1,3 @@
----
-
-```markdown
 # Ansible Deployment Project
 
 ## 📋 Overview
