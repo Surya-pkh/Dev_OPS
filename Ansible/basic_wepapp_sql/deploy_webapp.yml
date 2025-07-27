@@ -1,0 +1,102 @@
+---
+- name: Deploy Apache and Kool Form website
+  hosts: app_servers
+  become: yes
+  vars:
+    website_name: "kool_form_site"
+    download_url: "https://www.tooplate.com/zip-templates/2136_kool_form_pack.zip"
+    temp_dir: "/tmp/web_temp"
+    website_dir: "/var/www/{{ website_name }}"
+
+  tasks:
+    # 1. Install Apache and required tools
+    - name: Install Apache and dependencies
+      apt:
+        name:
+          - apache2
+          - unzip
+          - wget
+        state: present
+        update_cache: yes
+
+    # 2. Start and enable Apache
+    - name: Ensure Apache is running
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    # 3. Create temporary directory
+    - name: Create temporary directory
+      file:
+        path: "{{ temp_dir }}"
+        state: directory
+        mode: '0755'
+
+    # 4. Download the template
+    - name: Download website template
+      get_url:
+        url: "{{ download_url }}"
+        dest: "{{ temp_dir }}/template.zip"
+        mode: '0644'
+
+    # 5. Unzip the template
+    - name: Unzip template
+      unarchive:
+        src: "{{ temp_dir }}/template.zip"
+        dest: "{{ temp_dir }}"
+        remote_src: yes
+        creates: "{{ temp_dir }}/2136_kool_form_pack"
+
+    # 6. Create website directory
+    - name: Create website directory
+      file:
+        path: "{{ website_dir }}"
+        state: directory
+        mode: '0755'
+
+    # 7. Copy website files
+    - name: Deploy website files
+      copy:
+        src: "{{ temp_dir }}/2136_kool_form_pack/"
+        dest: "{{ website_dir }}"
+        remote_src: yes
+        mode: '0644'
+
+    # 8. Configure Apache virtual host (FIXED)
+    - name: Create Apache virtual host
+      copy:
+        content: |
+          <VirtualHost *:80>
+              ServerAdmin webmaster@localhost
+              ServerName {{ ansible_host }}
+              DocumentRoot {{ website_dir }}
+
+              <Directory {{ website_dir }}>
+                  Options Indexes FollowSymLinks
+                  AllowOverride All
+                  Require all granted
+              </Directory>
+
+              ErrorLog ${APACHE_LOG_DIR}/{{ website_name }}_error.log
+              CustomLog ${APACHE_LOG_DIR}/{{ website_name }}_access.log combined
+          </VirtualHost>
+        dest: "/etc/apache2/sites-available/{{ website_name }}.conf"
+        mode: '0644'
+
+    # 9. Enable site and reload Apache
+    - name: Enable website
+      command: a2ensite {{ website_name }}.conf
+      notify: Reload Apache
+
+    # 10. Clean up temporary files
+    - name: Remove temporary directory
+      file:
+        path: "{{ temp_dir }}"
+        state: absent
+
+  handlers:
+    - name: Reload Apache
+      service:
+        name: apache2
+        state: reloaded

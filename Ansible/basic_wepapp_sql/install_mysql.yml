@@ -1,0 +1,80 @@
+---
+- name: Clean MySQL installation with root password
+  hosts: db_servers
+  become: yes
+  vars:
+    mysql_root_password: "admin123"  # CHANGE THIS
+
+  tasks:
+    # 1. Stop MySQL service if running
+    - name: Stop MySQL service
+      service:
+        name: mysql
+        state: stopped
+      ignore_errors: yes
+
+    # 2. Completely remove MySQL packages and data
+    - name: Purge MySQL packages and configs
+      apt:
+        name: "{{ item }}"
+        state: absent
+        purge: yes
+        autoremove: yes
+      loop:
+        - mysql-server
+        - mysql-client
+        - mysql-common
+        - python3-mysqldb
+      ignore_errors: yes
+
+    # 3. Remove MySQL data directories
+    - name: Remove MySQL data directories
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/mysql
+        - /etc/mysql
+      ignore_errors: yes
+
+    # 4. Install MySQL with password preseeded
+    - name: Preseed MySQL root password
+      debconf:
+        name: 'mysql-server'
+        question: 'mysql-server/root_password'
+        value: "{{ mysql_root_password }}"
+        vtype: 'password'
+
+    - name: Confirm MySQL root password
+      debconf:
+        name: 'mysql-server'
+        question: 'mysql-server/root_password_again'
+        value: "{{ mysql_root_password }}"
+        vtype: 'password'
+
+    # 5. Install MySQL server
+    - name: Install MySQL Server
+      apt:
+        name: mysql-server
+        state: present
+        update_cache: yes
+
+    # 6. Ensure MySQL service is running
+    - name: Start and enable MySQL
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    # 7. Verify installation
+    - name: Verify MySQL root access
+      mysql_query:
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+        query: "SHOW DATABASES;"
+      register: mysql_databases
+      no_log: true
+
+    - name: Show databases
+      debug:
+        var: mysql_databases.result

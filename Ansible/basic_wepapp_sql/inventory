@@ -1,0 +1,10 @@
+[app_servers]
+10.128.0.9 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/gcp-key
+
+[db_servers]
+10.128.0.10 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/gcp-key
+
+# Optional: Group all nodes under a parent group (e.g., for cross-group operations)
+[all_nodes:children]
+app_servers
+db_servers
